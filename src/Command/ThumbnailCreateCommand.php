@@ -26,7 +26,7 @@ class ThumbnailCreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        dd('dupa');
+        dd(__METHOD__);
         $io = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('arg1');
 
