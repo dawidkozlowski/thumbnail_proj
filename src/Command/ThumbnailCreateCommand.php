@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\HostingStrategy\HostingContext;
-use App\HostingStrategy\Strategy\BucketSHosting;
+use App\HostingStrategy\Strategy\BucketHosting;
 use App\HostingStrategy\Strategy\DropboxHosting;
 use App\HostingStrategy\Strategy\HostingInterface;
 use App\HostingStrategy\Strategy\LocalHosting;
@@ -12,14 +12,12 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'thumbnail:create',
-    description: 'Add a short description for your command',
+    description: 'Create thumbnail and sav it in chosen hosting',
 )]
 class ThumbnailCreateCommand extends Command
 {
@@ -41,7 +39,6 @@ class ThumbnailCreateCommand extends Command
         $host = $this->selectHost($input, $output);
         $strategy = $this->selectStrategy($host);
 
-//        $file = 'https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80';
         $file = $input->getArgument('image');
         $resizer = new PictureManager();
         $image = $resizer->resizeFile($file);
@@ -73,7 +70,7 @@ class ThumbnailCreateCommand extends Command
         if ($host == $this->hostingList[0]) {
             $strategy = new DropboxHosting();
         } elseif ($host == $this->hostingList[1]) {
-            $strategy = new BucketSHosting();
+            $strategy = new BucketHosting();
         } elseif ($host == $this->hostingList[2]) {
             $strategy = new LocalHosting();
         }

@@ -2,7 +2,7 @@
 
 namespace App\HostingStrategy\Strategy;
 
-class BucketSHosting implements HostingInterface
+class BucketHosting implements HostingInterface
 {
 
     public function handle($input) :string
